@@ -1,0 +1,38 @@
+Code smells:
+
+1- Data Class
+File: src/prefences/AppearencePreferences
+Lines: (whole class)
+
+By looking at the methods in this class we notice that all of them
+are getters or setters this is Data class code smell.
+
+In this case there is not much you can do to preferences except
+get the current preference or change, so although this is a code
+smell it should stay this way, to prevent worst code smells.
+
+
+2- Long parameter list
+File: src/cli/ArgumentProcessor
+Lines: 275
+
+    private void writeMetadatatoPdf(List<ParserResult> loaded, String filesAndCitekeys, Charset encoding, XmpPreferences xmpPreferences, FilePreferences filePreferences, BibDatabaseMode databaseMode, BibEntryTypesManager entryTypesManager, FieldWriterPreferences fieldWriterPreferences, boolean writeXMP, boolean embeddBibfile) {
+    ...
+    }
+
+Being close to 300 chars long this method parameter list is obviouly
+to long, to remedy this we can group some of the parameters into a parameter object
+
+
+
+3- Lack of comments
+File: src/cli/ArgumentProcessor
+Lines: 275
+
+    private void writeMetadatatoPdf(List<ParserResult> loaded, String filesAndCitekeys, Charset encoding, XmpPreferences xmpPreferences, FilePreferences filePreferences, BibDatabaseMode databaseMode, BibEntryTypesManager entryTypesManager, FieldWriterPreferences fieldWriterPreferences, boolean writeXMP, boolean embeddBibfile) {
+    ...
+    }
+
+In this class we can see a lack of comments for each method this is
+aggravated by the fact this method has a long parameter list making it
+harder to understand.
