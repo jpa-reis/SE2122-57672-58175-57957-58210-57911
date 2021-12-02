@@ -1,0 +1,19 @@
+Design Patterns:
+
+1. Algumas classes em src/model/groups estão organizadas de acordo com o design pattern "Template Method". As classes
+SearchGroup, TexGroup, AutomaticGroup, AllEntriesGroup e KeywordGroup são semelhantes em diversos aspetos, tendo métodos
+com funções semelhantes que são gerados pela superclasse AbstractGroup. Ainda temos as classes AutomaticKeywordGroup e
+AutomaticPersonsGroup que estendem a classe AutomaticGroup, as classes RegexKeywordGroup, e LastNameGroup que estendem a
+classe KeywordGroup e a classe ExplicitGroup que estende WordKeywordGroup, formando um total de 11 classes estendidas de
+AbstractGroup.
+
+
+2. A classe src/model/field/FieldFactory é uma classe construída de acordo com o design pattern "Factory Method". Esta
+classe possui diversos métodos cuja função é a criação de objetos, como por exemplo parseOrFields(), parseOrFieldsList()
+e parseFieldList().
+
+
+3. Na classe src/model/entry/Author, no método latexFree() que se inicializa na linha 363, está presente a inicialização
+de um objeto de acordo com o design pattern "Singleton". A variável latexFreeAuthor é apenas inicializada quando é usada
+pela primeira vez, sendo nula até esse momento. O if na linha 364 verifica se a variável já fui inicializada e
+inicializa-a caso não o tenha sido.
