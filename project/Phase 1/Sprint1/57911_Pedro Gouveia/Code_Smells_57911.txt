@@ -1,0 +1,78 @@
+Code Smells:
+
+1 -
+jabref src -> model -> strings -> StringUtil:
+Line 268-285 - Else-If chain could be a switch.
+
+Solution:
+!escaped could be checked at the beginning of a loop.
+
+...
+        for (int i = 0; i < value.length(); i++) {
+            if (!escaped) {
+                char c = value.charAt(i);
+                switch(c) {
+                    case '\\':
+                        escaped = true;
+                        continue;
+                    case ':':
+                        thisEntry.add(sb.toString());
+                        sb = new StringBuilder();
+                        break;
+                    case ';':
+                        thisEntry.add(sb.toString());
+                        sb = new StringBuilder();
+                        newList.add(thisEntry);
+                        thisEntry = new ArrayList<>();
+                        break;
+                    default:
+                        sb.append(c);
+                        break;
+                }
+                escaped = false;
+            }
+...
+
+
+2 -
+jabref src -> gui -> externalfiles -> FileFilterUtils:
+Line 38-62 - isDuringLastX methods are extremely similar.
+
+Solution:
+Create a isDuringLastX method where the user provides the desired time scale
+(day, week, month, year).
+
+...
+    public boolean isDuringLast(LocalDateTime fileEditTime, int timeScale) {
+        LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
+        return fileEditTime.isAfter(NOW.minusHours(timeScale));
+    }
+...
+
+
+3 -
+
+jabref -> gui -> mergeentries -> DiffHighligting:
+Lines 89-106: the INSERT case in the switch does nothing.
+
+Solution:
+Remove the INSERT case, as it's functionality is already covered by the default case.
+
+...
+            switch (delta.getType()) {
+                case CHANGE:
+                    for (String line : lines) {
+                        result.set(startPos + offset, forChanged(line + separator));
+                        offset++;
+                    }
+                    break;
+                case DELETE:
+                    for (String line : lines) {
+                        result.set(startPos + offset, forAdded(line + separator));
+                        offset++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+...
