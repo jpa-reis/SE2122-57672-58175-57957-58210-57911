@@ -1,7 +1,8 @@
 Design Patterns:
 
 
-1-
+1- Reviewer: João Reis
+   Commentary: I agree with findings and have nothing else to add. 
 
 2-
 

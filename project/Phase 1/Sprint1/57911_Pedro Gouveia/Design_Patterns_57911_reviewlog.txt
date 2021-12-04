@@ -8,4 +8,7 @@ Design Patterns:
    Comments: Good find, nothing else to add.
 
 
-3-
+3- Reviewer: João Reis
+   Comments: It doesn't look like a singleton, the code of the given class has a private contructor. However the private constructor 
+only prevents the instanciation of the class in any other place other than the class itself, this way there can be multiple instances of 
+the class just not outside of the class itself. 
