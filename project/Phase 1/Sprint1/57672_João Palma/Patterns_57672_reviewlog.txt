@@ -1,0 +1,10 @@
+Design Patterns:
+
+1 -
+
+
+2 - Reviewed by João Santos: Após análise, concordo com as observações efetuadas. Acho relevante adicionar a localização
+da classe abstrata em questão: src/logic/cleanup/Formatter.
+
+
+3 -

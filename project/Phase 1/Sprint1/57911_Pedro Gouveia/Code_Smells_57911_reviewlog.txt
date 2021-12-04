@@ -1,0 +1,17 @@
+Code Smells:
+
+1 -
+
+
+2 - Reviewed by João Santos: Pequeno erro na sugestão de correção: minusHours() só é usado no método isDuringLastDay(),
+nos restantes é usado minusDays(). Para corrigir este erro sugiro a utilização de um if statement:
+
+...
+    if(timeScale==7)
+        return fileEditTime.isAfter(NOW.minusHours(timeScale));
+    else
+        return fileEditTime.isAfter(NOW.minusDays(timeScale));
+...
+
+
+3 -
