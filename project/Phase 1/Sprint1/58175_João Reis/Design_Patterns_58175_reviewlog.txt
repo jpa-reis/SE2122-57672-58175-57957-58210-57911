@@ -1,0 +1,11 @@
+Design Patterns:
+
+
+1-
+
+
+2- Reviewer: Lucas Lobo 58210
+   Comments: A more complete src would help, missing a "see" in "We can this happening in the following example:"
+
+
+3

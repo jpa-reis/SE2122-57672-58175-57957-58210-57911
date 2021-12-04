@@ -1,6 +1,7 @@
 Code Smells:
 
-1 -
+1 - Reviewer: Lucas Lobo 58210
+    Comments: "sb.append(c);" should be executed even if "escaped == true", which does not happen in the new code.
 
 
 2 - Reviewed by João Santos: Pequeno erro na sugestão de correção: minusHours() só é usado no método isDuringLastDay(),
