@@ -3,7 +3,8 @@ Code smells:
 1- Reviewed by João Santos: Após análise, concordo com as observações efetuadas. Nada a acrescentar.
 
 
-2-
+2- Reviewer: João Reis
+   Commentary: I agree with the identified code smell and proposed solution. 
 
 
 

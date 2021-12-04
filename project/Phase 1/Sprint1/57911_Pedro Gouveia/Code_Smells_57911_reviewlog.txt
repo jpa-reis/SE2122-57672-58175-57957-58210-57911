@@ -15,4 +15,5 @@ nos restantes é usado minusDays(). Para corrigir este erro sugiro a utilizaçã
 ...
 
 
-3 -
+3 - Reviewer: João Reis
+    Commentary: The code smell is right and the solution is correct. Even though de case does effectively nothing it creates clutter. 

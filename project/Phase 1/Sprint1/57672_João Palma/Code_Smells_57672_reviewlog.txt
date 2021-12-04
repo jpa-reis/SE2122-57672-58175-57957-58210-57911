@@ -1,7 +1,6 @@
 Code Smells:
 
-1 -
-
+1 - 
 
 2 -
 Reviewer: Lucas Lobo 58210

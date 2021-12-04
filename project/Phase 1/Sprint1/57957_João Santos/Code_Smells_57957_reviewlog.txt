@@ -1,7 +1,8 @@
 Code Smells:
 
 
-1- I agree with the presented code smells and haven't anything to add.
+1-Reviewer: João Reis  
+  Commentary: I agree with the presented code smells and haven't anything to add.
 
 
 2- 
