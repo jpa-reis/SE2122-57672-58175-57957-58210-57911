@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Design Patterns:
 
 1 -
@@ -8,3 +9,22 @@ da classe abstrata em questão: src/logic/cleanup/Formatter.
 
 
 3 -
+=======
+1 -
+
+
+
+
+
+
+2 -
+Reviewer: Lucas Lobo 58210
+Comments: Good example of the template pattern.
+
+
+
+
+3 -
+
+
+>>>>>>> origin/main

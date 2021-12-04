@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Code Smells:
 
 1 -
@@ -7,3 +8,22 @@ Code Smells:
 
 
 3 - Reviewed by João Santos: Após análise, concordo com as observações efetuadas. Nada a acrescentar.
+=======
+1 -
+
+
+
+
+
+
+
+2 -
+Reviewer: Lucas Lobo 58210
+Comments: Good find, nothing else to add.
+
+
+
+3 -
+
+
+>>>>>>> origin/main
