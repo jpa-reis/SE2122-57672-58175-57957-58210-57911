@@ -1,6 +1,9 @@
 Code Smells:
 
-1 - 
+1 -
+Reviewer: Pedro Gouveia 57911
+Comments: Completely agreed. !(right==0) is just not intuitive to read.
+
 
 2 -
 Reviewer: Lucas Lobo 58210
