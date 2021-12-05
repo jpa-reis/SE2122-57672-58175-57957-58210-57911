@@ -6,6 +6,8 @@ Code Smells:
 
 
 2- 
+Reviewer: João Palma 57672
+Comments: Nice find and detailed explanation, nothing to add.
 
 
 3-
