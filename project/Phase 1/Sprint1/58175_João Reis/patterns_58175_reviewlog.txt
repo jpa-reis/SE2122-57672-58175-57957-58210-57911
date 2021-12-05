@@ -2,6 +2,8 @@ Design Patterns:
 
 
 1-
+Reviewer: Pedro Gouveia 57911
+Comments: Not sure if it's a valid example of a Facade pattern, since it doesn't implement any sort of interface.
 
 
 2- Reviewer: Lucas Lobo 58210
