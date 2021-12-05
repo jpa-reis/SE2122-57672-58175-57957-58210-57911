@@ -18,3 +18,7 @@ phrases and issues previously stated.
 The last major things I can spot is stuff like "PF - Polymorphism Factor AHF", which doesn't need the "AHF" at the end, and how you
 introduce some metrics with "METRIC(metric name)," and others with "METRIC - metric name,". I think you should decide between one of those
 and just use that one.
+
+
+
+Reviewee(Lucas): Thanks for the feedback, it was very helpful. I have tried to fix the problems to the best of my ability.
