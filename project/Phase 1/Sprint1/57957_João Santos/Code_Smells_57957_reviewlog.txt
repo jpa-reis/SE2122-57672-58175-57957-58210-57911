@@ -8,4 +8,6 @@ Code Smells:
 2- 
 
 
-3- 
+3-
+Reviewer: Pedro Gouveia
+Commentary: Nothing to add, clean and simple.
