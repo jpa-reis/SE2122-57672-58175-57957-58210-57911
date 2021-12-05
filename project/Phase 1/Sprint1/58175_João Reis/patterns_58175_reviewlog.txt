@@ -10,4 +10,6 @@ Comments: Not sure if it's a valid example of a Facade pattern, since it doesn't
    Comments: A more complete src would help, missing a "see" in "We can this happening in the following example:"
    Othographic mistake fixed, João Reis. 
 
-3
+3-
+Reviewer: João Palma 57672
+Comments: Everything looks good, well explained and nothing to add.
