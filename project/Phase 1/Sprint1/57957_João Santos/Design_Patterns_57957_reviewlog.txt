@@ -2,6 +2,8 @@ Design Patterns:
 
 
 1- 
+Reviewer: João Palma 57672
+Comments: Everything looks fine, nothing to add.
 
 
 2- 
