@@ -4,6 +4,9 @@ Code Smells:
 
 
 2-
+Reviewer: Pedro Gouveia 57911
+Comments: Agreed, the code is quit messy as is. I would add a suggestion to check for the "escaped" condition first
+and only then check for everything else.
 
 
 3- Reviewer: Lucas Lobo 58210
