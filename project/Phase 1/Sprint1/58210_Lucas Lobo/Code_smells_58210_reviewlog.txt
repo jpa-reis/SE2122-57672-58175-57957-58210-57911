@@ -7,5 +7,6 @@ Code smells:
    Commentary: I agree with the identified code smell and proposed solution. 
 
 
-
 3-
+Reviewer: João Palma 57672
+Comments: Everything looks good, nothing to add.
