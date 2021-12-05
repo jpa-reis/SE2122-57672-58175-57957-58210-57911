@@ -1,0 +1,20 @@
+Reviewer: Pedro Gouveia 57911
+Comments: Good but could be better. I would suggest a couple of changes to improve the document:
+
+1 - First, the AHF and MFH descriptions should be changed to "relates to the number of attributes/methods *NOT* seen by other classes",
+instead of the current "relates to the number of attributes/methods seen by other classes", as I at least didn't find it clear
+enough during an initial read.
+
+2 - Metrics like AIF, MIF and PF would greatly benefit from a small description of what they are, even if it's already somewhat clear
+from their name.
+
+3 - CF explains that it measures "coupling" but it's not clear what "coupling" is. A small explanation would be most helpful.
+
+4 - In the PF description you wrote: "(...)which can cause debugging, by tracing the control flow harder.". I'm not exactly sure what
+you're trying to say here?
+
+5 - Finally, the document itself needs a bit more polish. The tables are great and really well done but the text itself has a few weird
+phrases and issues previously stated.
+The last major things I can spot is stuff like "PF - Polymorphism Factor AHF", which doesn't need the "AHF" at the end, and how you
+introduce some metrics with "METRIC(metric name)," and others with "METRIC - metric name,". I think you should decide between one of those
+and just use that one.
