@@ -9,3 +9,6 @@ da classe abstrata em questão: src/logic/cleanup/Formatter.
 
 
 3 -
+Reviewer: Pedro Gouveia 57911
+Comments: Might be missing something but I don't think this is a valid example of an Facade pattern, since the "WebFetchers"
+class doesn't implement the "WebFetcher" interface in the first place.
