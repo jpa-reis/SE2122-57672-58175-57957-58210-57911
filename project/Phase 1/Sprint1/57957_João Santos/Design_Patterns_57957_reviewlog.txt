@@ -5,6 +5,8 @@ Design Patterns:
 
 
 2- 
+Reviewer: Pedro Gouveia
+Commentary: Looks about right to me, nothing else to add. 
 
 
 3- Reviewer: João Reis
