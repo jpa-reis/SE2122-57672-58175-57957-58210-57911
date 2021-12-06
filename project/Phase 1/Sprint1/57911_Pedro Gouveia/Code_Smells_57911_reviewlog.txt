@@ -4,8 +4,8 @@ Code Smells:
     Comments: "sb.append(c);" should be executed even if "escaped == true", which does not happen in the new code.
 
 
-2 - Reviewed by João Santos: Pequeno erro na sugestão de correção: minusHours() só é usado no método isDuringLastDay(),
-nos restantes é usado minusDays(). Para corrigir este erro sugiro a utilização de um if statement:
+2 - Reviewed by João Santos: Small mistake in the solution: minusHours() in only used in the method isDuringLastDay(), minusDays()
+is used in other methods instead. To fix this I suggest the use of an "if" statement:
 
 ...
     if(timeScale==7)
@@ -13,6 +13,7 @@ nos restantes é usado minusDays(). Para corrigir este erro sugiro a utilizaçã
     else
         return fileEditTime.isAfter(NOW.minusDays(timeScale));
 ...
+
 
 
 3 - Reviewer: João Reis

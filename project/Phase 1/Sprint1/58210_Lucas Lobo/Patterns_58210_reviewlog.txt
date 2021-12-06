@@ -9,5 +9,5 @@ Reviewer: João Palma 57672
 Comments: I agree with the choice of the design pattern, nothing to add.
 
 
-3-Reviewed by João Santos: Após análise, concordo com as observações efetuadas. Nada a acrescentar.
+3- Reviewed by João Santos: I agree with the observations. Nothing to add.
 

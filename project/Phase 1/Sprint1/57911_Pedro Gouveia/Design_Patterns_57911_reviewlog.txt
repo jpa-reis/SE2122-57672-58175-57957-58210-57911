@@ -1,7 +1,7 @@
 Design Patterns:
 
 
-1- Reviewed by João Santos: Não tenho a certeza, mas penso que seja isso.
+1- Reviewed by João Santos: I'm not sure, but I think that's it.
 
 
 2- Reviewer: Lucas Lobo 58210

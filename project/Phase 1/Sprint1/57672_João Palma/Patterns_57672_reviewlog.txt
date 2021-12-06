@@ -4,8 +4,8 @@ Design Patterns:
    Comments: Good example of composite pattern, nothing else to add.
 
 
-2 - Reviewed by João Santos: Após análise, concordo com as observações efetuadas. Acho relevante adicionar a localização
-da classe abstrata em questão: src/logic/cleanup/Formatter.
+2 - Reviewed by João Santos: I agree with the observations. I think it's relevant to add the location of the abstract class
+ in question: src/logic/cleanup/Formatter.
 
 
 3 -
