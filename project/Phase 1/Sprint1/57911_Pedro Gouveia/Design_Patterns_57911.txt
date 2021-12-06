@@ -29,8 +29,7 @@ counterpart.
 
 3 - Singleton
 
-src -> gui -> logging -> ApplicationInsightsAppender
+src -> gui -> externalfiletype -> ExternalFileTypes
 Entire class
 
-Class has private constructor, guaranteeing that it can only be instantiated by itself and
-only once. It can, however, be accessed via public methods like "append".
+Class has private constructor, guaranteeing that it can only be instantiated by itself and has a getInstance() method. It can, however, be accessed via public methods like "getExternalFileTypeSelection()".
