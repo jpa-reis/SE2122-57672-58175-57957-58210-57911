@@ -13,6 +13,7 @@ Solution:
                 char c = value.charAt(i);
                 switch(c) {
                     case '\\':
+                        sb.append(c);
                         escaped = true;
                         continue;
                     case ':':
@@ -45,7 +46,11 @@ Create a isDuringLastX method where the user provides the desired time scale
 ...
     public boolean isDuringLast(LocalDateTime fileEditTime, int timeScale) {
         LocalDateTime NOW = LocalDateTime.now(ZoneId.systemDefault());
-        return fileEditTime.isAfter(NOW.minusHours(timeScale));
+        
+        if(timeScale==7)
+            return fileEditTime.isAfter(NOW.minusHours(timeScale));
+        else
+            return fileEditTime.isAfter(NOW.minusDays(timeScale));
     }
 ...
 
