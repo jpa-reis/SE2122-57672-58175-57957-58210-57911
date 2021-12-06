@@ -1,2 +1,3 @@
 Reviewer: Lucas Lobo 58210
-Comments: The diagram is well done, good work.
+Comments: In the diagram the use case "Remove Group" should extend "Move subgroup" and have no connection to the System.
+          I also belive the "system" Actor should have a more explicit name.
