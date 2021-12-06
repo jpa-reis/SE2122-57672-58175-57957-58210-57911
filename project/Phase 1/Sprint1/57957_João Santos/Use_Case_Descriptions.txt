@@ -1,5 +1,0 @@
-Name: RemoveGroup
-ID:57957
-Description: Someone wants to delete a group from Jabref
-Primary Actros: User
-Secundary Actors: System
