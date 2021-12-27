@@ -1,25 +1,18 @@
 package org.jabref.gui.sidepane;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.undo.UndoManager;
-
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
+import org.jabref.gui.graph.GraphSidePane;
 import org.jabref.gui.groups.GroupSidePane;
 import org.jabref.gui.importer.fetcher.WebSearchPane;
 import org.jabref.gui.openoffice.OpenOfficeSidePanel;
 import org.jabref.gui.util.TaskExecutor;
 import org.jabref.preferences.PreferencesService;
+
+import javax.swing.undo.UndoManager;
+import java.util.*;
 
 /**
  * Manages which {@link SidePaneComponent}s are shown.
@@ -64,6 +57,7 @@ public class SidePane extends VBox {
                 case OPEN_OFFICE -> new OpenOfficeSidePanel(this, taskExecutor, preferencesService, dialogService, stateManager, undoManager);
                 case WEB_SEARCH -> new WebSearchPane(this, preferencesService, dialogService, stateManager);
                 case GROUPS -> new GroupSidePane(this, taskExecutor, stateManager, preferencesService, dialogService);
+                case GRAPH -> new GraphSidePane(this, taskExecutor, stateManager, preferencesService, dialogService);
             };
             components.put(component.getType(), component);
         }

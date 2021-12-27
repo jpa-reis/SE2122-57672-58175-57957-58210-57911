@@ -68,7 +68,7 @@ public class IconTheme {
             loadAllIkons();
         }
         return ICON_NAMES.stream().filter(icon -> icon.toString().equals(code.toUpperCase(Locale.ENGLISH)))
-                         .map(internalMat -> new InternalMaterialDesignIcon(internalMat).withColor(color)).findFirst();
+                .map(internalMat -> new InternalMaterialDesignIcon(internalMat).withColor(color)).findFirst();
     }
 
     public static Image getJabRefImage() {
@@ -105,7 +105,7 @@ public class IconTheme {
         String key = Objects.requireNonNull(name, "icon name");
         if (!KEY_TO_ICON.containsKey(key)) {
             LOGGER.warn("Could not find icon url by name " + name + ", so falling back on default icon "
-                        + DEFAULT_ICON_PATH);
+                    + DEFAULT_ICON_PATH);
         }
         String path = KEY_TO_ICON.getOrDefault(key, DEFAULT_ICON_PATH);
         return Objects.requireNonNull(IconTheme.class.getResource(path), "Path must not be null for key " + key);
@@ -258,6 +258,7 @@ public class IconTheme {
         GITHUB(MaterialDesignG.GITHUB),
         TOGGLE_ENTRY_PREVIEW(MaterialDesignL.LIBRARY),
         TOGGLE_GROUPS(MaterialDesignV.VIEW_LIST),
+        TOGGLE_GRAPH(MaterialDesignV.VIEW_LIST),
         SHOW_PREFERENCES_LIST(MaterialDesignV.VIEW_LIST),
         WRITE_XMP(MaterialDesignI.IMPORT),
         FILE_WORD(MaterialDesignF.FILE_WORD),
