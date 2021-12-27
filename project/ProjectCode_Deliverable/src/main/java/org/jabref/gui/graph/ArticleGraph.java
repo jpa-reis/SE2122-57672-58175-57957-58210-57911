@@ -1,4 +1,4 @@
-package org.jabref.gui.groups;
+package org.jabref.gui.graph;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.css.PseudoClass;
-import javafx.scene.control.Control;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -16,13 +15,13 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
 
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
+import org.jabref.gui.groups.GroupNodeViewModel;
+import org.jabref.gui.groups.GroupTreeView;
+import org.jabref.gui.groups.GroupTreeViewModel;
 import org.jabref.gui.util.BindingsHelper;
-import org.jabref.gui.util.CustomLocalDragboard;
 import org.jabref.gui.util.RecursiveTreeItem;
 import org.jabref.gui.util.TaskExecutor;
 import org.jabref.gui.util.ViewModelTreeTableCellFactory;
@@ -30,18 +29,11 @@ import org.jabref.model.groups.AllEntriesGroup;
 import org.jabref.preferences.PreferencesService;
 
 import com.tobiasdiez.easybind.EasyBind;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ArticleGraph extends BorderPane {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GroupTreeView.class);
-
     private TreeTableView<GroupNodeViewModel> groupTree;
     private TreeTableColumn<GroupNodeViewModel, GroupNodeViewModel> mainColumn;
-    private TreeTableColumn<GroupNodeViewModel, GroupNodeViewModel> numberColumn;
-    private TreeTableColumn<GroupNodeViewModel, GroupNodeViewModel> expansionNodeColumn;
-    //private Button addNewGroup;
 
     private final StateManager stateManager;
     private final DialogService dialogService;
@@ -49,7 +41,6 @@ public class ArticleGraph extends BorderPane {
     private final PreferencesService preferencesService;
 
     private GroupTreeViewModel viewModel;
-    private CustomLocalDragboard localDragboard;
 
 
     /**
@@ -70,32 +61,18 @@ public class ArticleGraph extends BorderPane {
     }
 
     private void createNodes() {
-
-
-
         mainColumn = new TreeTableColumn<>();
         mainColumn.setId("mainColumn");
-        numberColumn = new TreeTableColumn<>();
-        numberColumn.getStyleClass().add("numberColumn");
-        numberColumn.setMinWidth(50d);
-        numberColumn.setMaxWidth(70d);
-        numberColumn.setPrefWidth(60d);
-        expansionNodeColumn = new TreeTableColumn<>();
-        expansionNodeColumn.getStyleClass().add("expansionNodeColumn");
-        expansionNodeColumn.setMaxWidth(25d);
-        expansionNodeColumn.setMinWidth(25d);
 
         groupTree = new TreeTableView<>();
         groupTree.setId("groupTree");
         groupTree.setColumnResizePolicy(TreeTableView.CONSTRAINED_RESIZE_POLICY);
-        groupTree.getColumns().addAll(List.of(mainColumn, numberColumn, expansionNodeColumn));
+        groupTree.getColumns().addAll(List.of(mainColumn));
         this.setCenter(groupTree);
-
     }
 
     private void initialize() {
-        this.localDragboard = stateManager.getLocalDragboard();
-        viewModel = new GroupTreeViewModel(stateManager, dialogService, preferencesService, taskExecutor, localDragboard);
+        viewModel = new GroupTreeViewModel(stateManager, dialogService, preferencesService, taskExecutor, stateManager.getLocalDragboard());
 
         // Set-up groups tree
         groupTree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -112,9 +89,6 @@ public class ArticleGraph extends BorderPane {
 
         // We try to to prevent publishing changes in the search field directly to the search task that takes some time
         // for larger group structures.
-
-
-
 
         groupTree.rootProperty().bind(
                 EasyBind.map(viewModel.rootGroupProperty(),
@@ -136,48 +110,6 @@ public class ArticleGraph extends BorderPane {
                 .withIcon(GroupNodeViewModel::getIcon)
                 .withTooltip(GroupNodeViewModel::getDescription)
                 .install(mainColumn);
-
-        // Number of hits (only if user wants to see them)
-        PseudoClass anySelected = PseudoClass.getPseudoClass("any-selected");
-        PseudoClass allSelected = PseudoClass.getPseudoClass("all-selected");
-        new ViewModelTreeTableCellFactory<GroupNodeViewModel>()
-                .withGraphic(group -> {
-                    final StackPane node = new StackPane();
-                    node.getStyleClass().setAll("hits");
-                    if (!group.isRoot()) {
-                        BindingsHelper.includePseudoClassWhen(node, anySelected,
-                                group.anySelectedEntriesMatchedProperty());
-                        BindingsHelper.includePseudoClassWhen(node, allSelected,
-                                group.allSelectedEntriesMatchedProperty());
-                    }
-                    Text text = new Text();
-                    if (preferencesService.getDisplayGroupCount()) {
-                        text.textProperty().bind(group.getHits().asString());
-                    }
-                    text.getStyleClass().setAll("text");
-                    node.getChildren().add(text);
-                    node.setMaxWidth(Control.USE_PREF_SIZE);
-                    return node;
-                })
-                .install(numberColumn);
-
-        // Arrow indicating expanded status
-        new ViewModelTreeTableCellFactory<GroupNodeViewModel>()
-                .withGraphic(viewModel -> {
-                    final StackPane disclosureNode = new StackPane();
-                    disclosureNode.visibleProperty().bind(viewModel.hasChildrenProperty());
-                    disclosureNode.getStyleClass().setAll("tree-disclosure-node");
-
-                    final StackPane disclosureNodeArrow = new StackPane();
-                    disclosureNodeArrow.getStyleClass().setAll("arrow");
-                    disclosureNode.getChildren().add(disclosureNodeArrow);
-                    return disclosureNode;
-                })
-                .withOnMouseClickedEvent(group -> event -> {
-                    group.toggleExpansion();
-                    event.consume();
-                })
-                .install(expansionNodeColumn);
 
         // Set pseudo-classes to indicate if row is root or sub-item ( > 1 deep)
         PseudoClass rootPseudoClass = PseudoClass.getPseudoClass("root");
@@ -221,29 +153,17 @@ public class ArticleGraph extends BorderPane {
     }
 
     private void selectNode(GroupNodeViewModel value) {
-        selectNode(value, false);
-    }
-
-    private void selectNode(GroupNodeViewModel value, boolean expandParents) {
         getTreeItemByValue(value)
-                .ifPresent(treeItem -> {
-                    if (expandParents) {
-                        TreeItem<GroupNodeViewModel> parent = treeItem.getParent();
-                        while (parent != null) {
-                            parent.setExpanded(true);
-                            parent = parent.getParent();
-                        }
-                    }
-                    groupTree.getSelectionModel().select(treeItem);
-                });
+                .ifPresent(treeItem ->
+                    groupTree.getSelectionModel().select(treeItem)
+                );
     }
 
     private Optional<TreeItem<GroupNodeViewModel>> getTreeItemByValue(GroupNodeViewModel value) {
         return getTreeItemByValue(groupTree.getRoot(), value);
     }
 
-    private Optional<TreeItem<GroupNodeViewModel>> getTreeItemByValue(TreeItem<GroupNodeViewModel> root,
-                                                                      GroupNodeViewModel value) {
+    private Optional<TreeItem<GroupNodeViewModel>> getTreeItemByValue(TreeItem<GroupNodeViewModel> root, GroupNodeViewModel value) {
         if (root.getValue().equals(value)) {
             return Optional.of(root);
         }
@@ -255,7 +175,6 @@ public class ArticleGraph extends BorderPane {
                 break;
             }
         }
-
         return node;
     }
 

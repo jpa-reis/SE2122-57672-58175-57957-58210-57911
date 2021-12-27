@@ -6,7 +6,6 @@ import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.actions.Action;
 import org.jabref.gui.actions.StandardActions;
-import org.jabref.gui.groups.ArticleGraph;
 import org.jabref.gui.icon.IconTheme;
 import org.jabref.gui.sidepane.SidePane;
 import org.jabref.gui.sidepane.SidePaneComponent;
