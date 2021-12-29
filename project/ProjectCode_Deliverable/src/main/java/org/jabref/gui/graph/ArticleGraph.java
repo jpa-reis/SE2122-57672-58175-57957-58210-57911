@@ -58,6 +58,10 @@ public class ArticleGraph extends BorderPane {
         createNodes();
         this.getStylesheets().add(Objects.requireNonNull(GroupTreeView.class.getResource("GroupTree.css")).toExternalForm());
         initialize();
+        System.out.println("aaaaaa");
+
+        /**** IMPORTANT: what's inside the println is used to get the entries ****/
+        System.out.println(groupTree.getRoot().getValue().getEntries());
     }
 
     private void createNodes() {
@@ -77,7 +81,6 @@ public class ArticleGraph extends BorderPane {
         // Set-up groups tree
         groupTree.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
-
         // Set-up bindings
         Platform.runLater(() ->
                 BindingsHelper.bindContentBidirectional(
@@ -87,7 +90,7 @@ public class ArticleGraph extends BorderPane {
                         this::updateSelection
                 ));
 
-        // We try to to prevent publishing changes in the search field directly to the search task that takes some time
+        // We try to prevent publishing changes in the search field directly to the search task that takes some time
         // for larger group structures.
 
         groupTree.rootProperty().bind(
@@ -141,6 +144,7 @@ public class ArticleGraph extends BorderPane {
             return row;
         });
 
+
     }
 
     private void updateSelection(List<TreeItem<GroupNodeViewModel>> newSelectedGroups) {
@@ -155,7 +159,7 @@ public class ArticleGraph extends BorderPane {
     private void selectNode(GroupNodeViewModel value) {
         getTreeItemByValue(value)
                 .ifPresent(treeItem ->
-                    groupTree.getSelectionModel().select(treeItem)
+                        groupTree.getSelectionModel().select(treeItem)
                 );
     }
 
