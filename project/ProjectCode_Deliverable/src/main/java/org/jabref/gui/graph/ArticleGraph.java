@@ -4,10 +4,18 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
+import java.util.*;
+import java.util.List;
 
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane ;
+import javafx.stage.Stage;
+import org.jabref.model.entry.BibEntry;
+import org.jabref.model.entry.field.StandardField;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.layout.mxGraphLayout;
+import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.view.mxGraph;
 import javafx.collections.ObservableList;
@@ -40,8 +48,8 @@ public class ArticleGraph extends BorderPane {
     private final GroupTreeViewModel viewModel;
     private ObservableList<BibEntry> entries;
     private ImageView graphImage;
-    private Button refresh;    
-    
+    private Button refresh;
+
     /**
      * The groups panel
      *
@@ -60,10 +68,10 @@ public class ArticleGraph extends BorderPane {
         this.getStylesheets().add(Objects.requireNonNull(GroupTreeView.class.getResource("GroupTree.css")).toExternalForm());
         makeTree();
     }
-    
+
     private List<List<String>> getGraphInfo(){
         List<List<String>> authorsList = new ArrayList<>();
-        
+
         if(groupTree.getRoot()!=null){
             entries = groupTree.getRoot().getValue().getEntries();
             for (BibEntry entry : entries) {
@@ -92,9 +100,11 @@ public class ArticleGraph extends BorderPane {
         this.setCenter(articleGraph);
 
 
-        refresh = IconTheme.JabRefIcons.REFRESH.asButton();
-        refresh.setTooltip(new Tooltip("New group"));
+//        refresh = IconTheme.JabRefIcons.REFRESH.asButton();
+        refresh = new Button("Show relation Graph");
+        refresh.setTooltip(new Tooltip("Show relation Graph"));
         refresh.setOnAction(event -> updateImage());
+        refresh.setMaxWidth(Double.MAX_VALUE);
         HBox refreshButton = new HBox(refresh);
         refreshButton.setId("refresh");
         this.setTop(refreshButton);
@@ -121,56 +131,89 @@ public class ArticleGraph extends BorderPane {
     protected void updateImage(){
         BufferedImage newGraphImage = buildGraph();
 
-
-        System.out.println("GraphUpdated");
         graphImage = new ImageView(SwingFXUtils.toFXImage(newGraphImage, null));
 
         HBox articleGraph = new HBox(graphImage);
         articleGraph.setId("articleGraph");
         this.setCenter(articleGraph);
 
+        Group root = new Group(graphImage);
+        ScrollPane  sp = new ScrollPane();
+        sp.setContent(root);
+        Scene scene = new Scene(sp);
+
+        Stage stage = new Stage();
+        stage.setTitle("Displaying Image");
+        stage.setScene(scene);
+        stage.show();
+
     }
+
 
     private BufferedImage buildGraph() {
 
+        List<List<String>> mapGraph = getGraphInfo();
+
         mxGraph graph = new mxGraph();
         Object parent = graph.getDefaultParent();
+        Map<String, Object> vertices = new HashMap<String, Object>();
 
         graph.getModel().beginUpdate();
         try
         {
-            Object v1 = graph.insertVertex(parent, null, "Hello", 0, 0, 80,30);
-            Object v2 = graph.insertVertex(parent, null, "World!", 0, 0,80, 30);
-            Object v3 = graph.insertVertex(parent, null, "3!", 0, 0,80, 30);
-            Object v4 = graph.insertVertex(parent, null, "4!", 0, 0,80, 30);
-            Object v5 = graph.insertVertex(parent, null, "5!", 0, 0,80, 30);
-            Object v6 = graph.insertVertex(parent, null, "6!", 0, 0,80, 30);
-            Object v7 = graph.insertVertex(parent, null, "7!", 0, 0,80, 30);
-            Object v8 = graph.insertVertex(parent, null, "8!", 0, 0,80, 30);
-            graph.insertEdge(parent, null, "", v1, v2);
-            graph.insertEdge(parent, null, "", v1, v3);
-            graph.insertEdge(parent, null, "", v5, v4);
-            graph.insertEdge(parent, null, "", v4, v2);
-            graph.insertEdge(parent, null, "", v3, v2);
-            graph.insertEdge(parent, null, "", v8, v2);
+            for(List<String> authors : mapGraph){
+
+                int i = 0;
+                for(; i < authors.size() - 1; i++){
+
+                    Object edgeStart = vertices.get(authors.get(i));
+                    if(edgeStart == null){
+                        edgeStart = graph.insertVertex(parent, null, authors.get(i), 0, 0, 80, 30);
+                        vertices.put(authors.get(i), edgeStart);
+                    }
+
+
+                    for( int j = i + 1; j < authors.size(); j++){
+
+
+                        Object edgeEnd = vertices.get(authors.get(j));
+                        if(edgeEnd == null){
+                            edgeEnd = graph.insertVertex(parent, null, authors.get(j), 0, 0, 80, 30);
+                            vertices.put(authors.get(j), edgeEnd);
+                        }
+
+                        graph.insertEdge(parent, null, "", edgeStart, edgeEnd);
+                        graph.insertEdge(parent, null, "", edgeEnd, edgeStart);
+
+                    }
+                }
+                //add even if he wrote the article alone
+                if(i == 0) {
+                    Object edge = vertices.get(authors.get(i));
+                    if (edge == null) {
+                        edge = graph.insertVertex(parent, null, authors.get(i), 0, 0, 80, 30);
+                        vertices.put(authors.get(i), edge);
+                    }
+                }
+
+            }
+
         }
-        finally
-        {
+        finally {
             graph.getModel().endUpdate();
         }
 
-        mxGraphLayout layout = new mxHierarchicalLayout(graph);
+        mxGraphLayout layout = new mxCircleLayout(graph);
         layout.execute(parent);
 
         BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, Color.WHITE, false, null);
 
-//        try {
-//            ImageIO.write(image, "PNG", new File("C:\\Users\\Lucas\\Desktop\\SE2122-57672-58175-57957-58210-57911\\project\\ProjectCode_Deliverablesrc\\main\\resources\\images\\external\\graph.png"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        //resize image
+//        Image resultingImage = image.getScaledInstance(800, 800, Image.SCALE_DEFAULT);
+//        BufferedImage outputImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_RGB);
+//        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 
         return image;
-
     }
+
 }
