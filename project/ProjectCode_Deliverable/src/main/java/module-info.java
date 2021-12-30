@@ -101,4 +101,6 @@ open module org.jabref {
     requires com.fasterxml.jackson.dataformat.yaml;
     requires com.fasterxml.jackson.datatype.jsr310;
     requires net.harawata.appdirs;
+
+    requires com.github.vlsi.mxgraph.jgraphx;
 }
