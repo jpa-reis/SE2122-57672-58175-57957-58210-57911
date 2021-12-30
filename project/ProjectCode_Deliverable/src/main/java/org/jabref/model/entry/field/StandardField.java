@@ -139,6 +139,11 @@ public enum StandardField implements Field {
     XDATA("xdata", FieldProperty.MULTIPLE_ENTRY_LINK),
     XREF("xref", FieldProperty.SINGLE_ENTRY_LINK),
 
+    AUTHOR_NATIONALITY("Nationality"),
+    TEXT_LANGUAGES("Languages"),
+    CREDIT_INSTITUTION("Accredited by"),
+    FUNDED_BY("Funded by"),
+
     // JabRef-specific fields
     GROUPS("groups"),
     OWNER("owner"),

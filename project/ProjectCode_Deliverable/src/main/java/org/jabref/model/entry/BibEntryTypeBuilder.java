@@ -12,6 +12,7 @@ import org.jabref.model.entry.field.BibField;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.FieldPriority;
 import org.jabref.model.entry.field.OrFields;
+import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.types.EntryType;
 import org.jabref.model.entry.types.StandardEntryType;
 
@@ -53,6 +54,10 @@ public class BibEntryTypeBuilder {
     }
 
     public BibEntryTypeBuilder withRequiredFields(Set<OrFields> requiredFields) {
+        Set<OrFields> test = requiredFields;
+        OrFields aaa = new OrFields();
+        aaa.add(StandardField.FUNDED_BY);
+        test.add(aaa);
         this.requiredFields = requiredFields;
         return this;
     }

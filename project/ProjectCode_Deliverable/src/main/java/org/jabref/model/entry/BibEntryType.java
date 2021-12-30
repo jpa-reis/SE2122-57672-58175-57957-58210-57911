@@ -24,6 +24,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
         this.type = Objects.requireNonNull(type);
         this.requiredFields = new LinkedHashSet<>(requiredFields);
         this.fields = new LinkedHashSet<>(fields);
+
+
     }
 
     public EntryType getType() {
@@ -37,8 +39,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
      */
     public Set<BibField> getOptionalFields() {
         return getAllBibFields().stream()
-                             .filter(field -> !isRequired(field.getField()))
-                             .collect(Collectors.toCollection(LinkedHashSet::new));
+                                .filter(field -> !isRequired(field.getField()))
+                                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public boolean isRequired(Field field) {
@@ -69,10 +71,15 @@ public class BibEntryType implements Comparable<BibEntryType> {
     }
 
     public Set<Field> getPrimaryOptionalFields() {
-        return getOptionalFields().stream()
-                                  .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
-                                  .map(BibField::getField)
-                                  .collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<Field> primaryOptionalFields = getOptionalFields().stream()
+                                                              .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
+                                                              .map(BibField::getField)
+                                                              .collect(Collectors.toCollection(LinkedHashSet::new));
+        primaryOptionalFields.add(StandardField.NATIONALITY);
+        primaryOptionalFields.add(StandardField.CREDIT_INSTITUTION);
+        primaryOptionalFields.add(StandardField.FUNDED_BY);
+
+        return primaryOptionalFields;
     }
 
     public Set<Field> getSecondaryOptionalFields() {
@@ -122,8 +129,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
         }
         BibEntryType that = (BibEntryType) o;
         return type.equals(that.type) &&
-               Objects.equals(requiredFields, that.requiredFields) &&
-               Objects.equals(fields, that.fields);
+                Objects.equals(requiredFields, that.requiredFields) &&
+                Objects.equals(fields, that.fields);
 
     }
 
@@ -135,14 +142,18 @@ public class BibEntryType implements Comparable<BibEntryType> {
     @Override
     public String toString() {
         return "BibEntryType{" +
-               "type=" + type +
-               ", requiredFields=" + requiredFields +
-               ", fields=" + fields +
-               '}';
+                "type=" + type +
+                ", requiredFields=" + requiredFields +
+                ", fields=" + fields +
+                '}';
     }
 
     @Override
     public int compareTo(BibEntryType o) {
         return this.getType().getName().compareTo(o.getType().getName());
+    }
+
+    public void addRequiredField(Field field){
+        requiredFields.add(new OrFields(field));
     }
 }
