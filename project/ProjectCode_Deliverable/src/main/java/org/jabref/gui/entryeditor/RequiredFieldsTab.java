@@ -28,6 +28,8 @@ import org.jabref.model.entry.field.OrFields;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.preferences.PreferencesService;
 
+import org.apache.lucene.index.Fields;
+
 public class RequiredFieldsTab extends FieldsEditorTab {
 
     private final BibEntryTypesManager entryTypesManager;
@@ -55,9 +57,8 @@ public class RequiredFieldsTab extends FieldsEditorTab {
     protected Set<Field> determineFieldsToShow(BibEntry entry) {
         Optional<BibEntryType> entryType = entryTypesManager.enrich(entry.getType(), databaseContext.getMode());
         Set<Field> fields = new LinkedHashSet<>();
-        if(entry.getType().getDisplayName().equals("Article")){
-            entryType.get().addRequiredField(StandardField.TEXT_LANGUAGES);
-        }
+
+        entryType.get().addRequiredFields(new AdditionalFields().getRequiredFields(entry.getType()));
 
         if (entryType.isPresent()) {
             for (OrFields orFields : entryType.get().getRequiredFields()) {

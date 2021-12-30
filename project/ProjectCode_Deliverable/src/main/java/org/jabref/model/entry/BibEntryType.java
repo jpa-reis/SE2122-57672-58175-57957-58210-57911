@@ -1,5 +1,6 @@
 package org.jabref.model.entry;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -7,12 +8,15 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jabref.gui.entryeditor.AdditionalFields;
 import org.jabref.model.entry.field.BibField;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.FieldPriority;
 import org.jabref.model.entry.field.OrFields;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.types.EntryType;
+
+import org.apache.lucene.index.Fields;
 
 public class BibEntryType implements Comparable<BibEntryType> {
 
@@ -75,9 +79,15 @@ public class BibEntryType implements Comparable<BibEntryType> {
                                                               .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
                                                               .map(BibField::getField)
                                                               .collect(Collectors.toCollection(LinkedHashSet::new));
-        primaryOptionalFields.add(StandardField.NATIONALITY);
-        primaryOptionalFields.add(StandardField.CREDIT_INSTITUTION);
-        primaryOptionalFields.add(StandardField.FUNDED_BY);
+
+
+        Field[] optionalFields = new AdditionalFields().getOptionalFields(type);
+        if(optionalFields != null){
+            for(int i = 0; i < optionalFields.length; i++){
+                primaryOptionalFields.add(optionalFields[i]);
+            }
+        }
+
 
         return primaryOptionalFields;
     }
@@ -153,7 +163,9 @@ public class BibEntryType implements Comparable<BibEntryType> {
         return this.getType().getName().compareTo(o.getType().getName());
     }
 
-    public void addRequiredField(Field field){
-        requiredFields.add(new OrFields(field));
+    public void addRequiredFields(Field[] fields){
+        for(int i = 0; i < fields.length; i++){
+            requiredFields.add(new OrFields(fields[i]));
+        }
     }
 }
