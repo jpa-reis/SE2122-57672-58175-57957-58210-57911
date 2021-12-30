@@ -42,7 +42,7 @@ import com.tobiasdiez.easybind.EasyBind;
 
 import javax.imageio.ImageIO;
 
-public class ArticleGraph extends BorderPane {
+public class AuthorsGraph extends BorderPane {
 
     private final TreeTableView<GroupNodeViewModel> groupTree;
     private final GroupTreeViewModel viewModel;
@@ -51,12 +51,12 @@ public class ArticleGraph extends BorderPane {
     private Button refresh;
 
     /**
-     * The groups panel
+     * The Authors panel
      *
      * Note: This panel is deliberately not created in FXML, since parsing of this took about 500 msecs. In an attempt
      * to speed up the startup time of JabRef, this has been rewritten to plain java.
      */
-    public ArticleGraph(TaskExecutor taskExecutor, StateManager stateManager, PreferencesService preferencesService, DialogService dialogService) {
+    public AuthorsGraph(TaskExecutor taskExecutor, StateManager stateManager, PreferencesService preferencesService, DialogService dialogService) {
         viewModel = new GroupTreeViewModel(stateManager, dialogService, preferencesService, taskExecutor, stateManager.getLocalDragboard());
         groupTree = new TreeTableView<>();
         groupTree.setId("groupTree");
@@ -95,12 +95,10 @@ public class ArticleGraph extends BorderPane {
     private void createNodes() {
 
         graphImage = new ImageView();
-        HBox articleGraph = new HBox(graphImage);
-        articleGraph.setId("articleGraph");
-        this.setCenter(articleGraph);
+        HBox authorsGraph = new HBox(graphImage);
+        authorsGraph.setId("authorsGraph");
+        this.setCenter(authorsGraph);
 
-
-//        refresh = IconTheme.JabRefIcons.REFRESH.asButton();
         refresh = new Button("Show relation Graph");
         refresh.setTooltip(new Tooltip("Show relation Graph"));
         refresh.setOnAction(event -> updateImage());
@@ -133,9 +131,9 @@ public class ArticleGraph extends BorderPane {
 
         graphImage = new ImageView(SwingFXUtils.toFXImage(newGraphImage, null));
 
-        HBox articleGraph = new HBox(graphImage);
-        articleGraph.setId("articleGraph");
-        this.setCenter(articleGraph);
+        HBox authorsGraph = new HBox(graphImage);
+        authorsGraph.setId("authorsGraph");
+        this.setCenter(authorsGraph);
 
         Group root = new Group(graphImage);
         ScrollPane  sp = new ScrollPane();
@@ -207,11 +205,6 @@ public class ArticleGraph extends BorderPane {
         layout.execute(parent);
 
         BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, Color.WHITE, false, null);
-
-        //resize image
-//        Image resultingImage = image.getScaledInstance(800, 800, Image.SCALE_DEFAULT);
-//        BufferedImage outputImage = new BufferedImage(800, 800, BufferedImage.TYPE_INT_RGB);
-//        outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
 
         return image;
     }
