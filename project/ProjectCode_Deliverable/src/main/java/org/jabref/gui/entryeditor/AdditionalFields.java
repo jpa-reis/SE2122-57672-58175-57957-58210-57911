@@ -1,6 +1,5 @@
 package org.jabref.gui.entryeditor;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.types.EntryType;
@@ -10,10 +9,12 @@ import java.util.*;
 
 public class AdditionalFields {
 
+    /*Language optional em tudo*/
+    /**/
     private Map<String, Field[]> additionalRequiredFields;
     private Map<String, Field[]> additionalOptionalFields;
 
-    private static final Field[] REQUIRED_ARTICLE = {StandardField.LANGUAGE};
+    private static final Field[] REQUIRED_ARTICLE = {StandardField.CREDIT_INSTITUTION};
     private static final Field[] REQUIRED_BOOK = {StandardField.FUNDED_BY};
     private static final Field[] REQUIRED_BOOKLET = {};
     private static final Field[] REQUIRED_COLLECTION= {};
@@ -22,9 +23,9 @@ public class AdditionalFields {
     private static final Field[] REQUIRED_INCOLLECTION = {};
     private static final Field[] REQUIRED_INPROCEEDINGS = {};
     private static final Field[] REQUIRED_MANUAL = {};
-    private static final Field[] REQUIRED_MASTERTHESIS= {};
+    private static final Field[] REQUIRED_MASTERTHESIS= {StandardField.CREDIT_INSTITUTION};
     private static final Field[] REQUIRED_MISC = {};
-    private static final Field[] REQUIRED_PHDTHESIS = {};
+    private static final Field[] REQUIRED_PHDTHESIS = {StandardField.CREDIT_INSTITUTION};
     private static final Field[] REQUIRED_PROCEEDINGS= {};
     private static final Field[] REQUIRED_TECHREPORT = {};
     private static final Field[] REQUIRED_UNPUBLISHED = {};

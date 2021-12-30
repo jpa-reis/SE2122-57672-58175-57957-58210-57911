@@ -164,8 +164,10 @@ public class BibEntryType implements Comparable<BibEntryType> {
     }
 
     public void addRequiredFields(Field[] fields){
-        for(int i = 0; i < fields.length; i++){
-            requiredFields.add(new OrFields(fields[i]));
+        if(fields != null){
+            for(int i = 0; i < fields.length; i++){
+                requiredFields.add(new OrFields(fields[i]));
+            }
         }
     }
 }
