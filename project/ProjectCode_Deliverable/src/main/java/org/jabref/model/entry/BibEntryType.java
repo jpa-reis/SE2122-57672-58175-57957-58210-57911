@@ -1,6 +1,5 @@
 package org.jabref.model.entry;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -8,15 +7,14 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.jabref.gui.entryeditor.AdditionalFields;
+import org.jabref.gui.entryeditor.additionalfields.AdditionalOptionalFields;
+import org.jabref.gui.entryeditor.additionalfields.AdditionalRequiredFields;
 import org.jabref.model.entry.field.BibField;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.FieldPriority;
 import org.jabref.model.entry.field.OrFields;
 import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.types.EntryType;
-
-import org.apache.lucene.index.Fields;
 
 public class BibEntryType implements Comparable<BibEntryType> {
 
@@ -76,17 +74,23 @@ public class BibEntryType implements Comparable<BibEntryType> {
 
     public Set<Field> getPrimaryOptionalFields() {
         Set<Field> primaryOptionalFields = getOptionalFields().stream()
-                                                              .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
-                                                              .map(BibField::getField)
-                                                              .collect(Collectors.toCollection(LinkedHashSet::new));
+                .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
+                .map(BibField::getField)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
+        AdditionalOptionalFields optionalFields = new AdditionalOptionalFields();
 
-        Field[] optionalFields = new AdditionalFields().getOptionalFields(type);
-        if(optionalFields != null){
-            for(int i = 0; i < optionalFields.length; i++){
-                primaryOptionalFields.add(optionalFields[i]);
+        if (optionalFields.getOptionalFields(type) != null) {
+            for (int i = 0; i < optionalFields.getOptionalFields(type).length; i++) {
+                primaryOptionalFields.add(optionalFields.getOptionalFields(type)[i]);
             }
         }
+
+        if (optionalFields.getCommonFields() != null) {
+            for (int i = 0; i < optionalFields.getCommonFields().length; i++) {
+                primaryOptionalFields.add(optionalFields.getCommonFields()[i]);
+            }
+    }
 
 
         return primaryOptionalFields;
