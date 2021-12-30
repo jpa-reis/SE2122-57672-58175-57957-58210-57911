@@ -1,6 +1,7 @@
 package org.jabref.gui.graph;
 
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Priority;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
@@ -13,12 +14,16 @@ import org.jabref.gui.sidepane.SidePaneType;
 import org.jabref.gui.util.TaskExecutor;
 import org.jabref.preferences.PreferencesService;
 
+import java.util.Collections;
+import java.util.List;
+
 public class GraphSidePane extends SidePaneComponent {
 
     private final PreferencesService preferences;
     private final DialogService dialogService;
     private final TaskExecutor taskExecutor;
     private final StateManager stateManager;
+    private final Button refresh = IconTheme.JabRefIcons.REFRESH.asButton();
 
     public GraphSidePane(SidePane sidePane, TaskExecutor taskExecutor, StateManager stateManager, PreferencesService preferences, DialogService dialogService) {
         super(sidePane, IconTheme.JabRefIcons.TOGGLE_GRAPH, "Relation between articles");
@@ -26,6 +31,12 @@ public class GraphSidePane extends SidePaneComponent {
         this.taskExecutor = taskExecutor;
         this.stateManager = stateManager;
         this.dialogService = dialogService;
+    }
+
+    @Override
+    protected List<Node> getAdditionalHeaderButtons() {
+        refresh.setOnAction(event -> createContentPane());
+        return Collections.singletonList(refresh);
     }
 
     @Override
