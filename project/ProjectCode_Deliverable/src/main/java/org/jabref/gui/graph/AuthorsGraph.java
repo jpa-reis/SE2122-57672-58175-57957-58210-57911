@@ -10,7 +10,9 @@ import java.util.List;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane ;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
+import org.jabref.logic.l10n.Localization;
 import org.jabref.model.entry.BibEntry;
 import org.jabref.model.entry.field.StandardField;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
@@ -93,20 +95,16 @@ public class AuthorsGraph extends BorderPane {
 
 
     private void createNodes() {
-
-        graphImage = new ImageView();
-        HBox authorsGraph = new HBox(graphImage);
-        authorsGraph.setId("authorsGraph");
-        this.setCenter(authorsGraph);
-
-        refresh = new Button("Show relation Graph");
-        refresh.setTooltip(new Tooltip("Show relation Graph"));
-        refresh.setOnAction(event -> updateImage());
+        refresh = new Button(Localization.lang("Show relation Graph"));
+        refresh.setId("refresh");
         refresh.setMaxWidth(Double.MAX_VALUE);
-        HBox refreshButton = new HBox(refresh);
-        refreshButton.setId("refresh");
-        this.setTop(refreshButton);
+        HBox.setHgrow(refresh, Priority.ALWAYS);
+        refresh.setTooltip(new Tooltip(Localization.lang("Show relation Graph")));
+        refresh.setOnAction(event -> updateImage());
 
+        HBox refreshButton = new HBox(refresh);
+        refreshButton.setId("refreshButton");
+        this.setBottom(refreshButton);
     }
 
     //Creates the groupTree just like class GroupTreeView (the class responsible for the "Groups interface" in the "View" tab)
@@ -130,10 +128,6 @@ public class AuthorsGraph extends BorderPane {
         BufferedImage newGraphImage = buildGraph();
 
         graphImage = new ImageView(SwingFXUtils.toFXImage(newGraphImage, null));
-
-        HBox authorsGraph = new HBox(graphImage);
-        authorsGraph.setId("authorsGraph");
-        this.setCenter(authorsGraph);
 
         Group root = new Group(graphImage);
         ScrollPane  sp = new ScrollPane();

@@ -25,7 +25,7 @@ public class GraphSidePane extends SidePaneComponent {
     private final StateManager stateManager;
 
     public GraphSidePane(SidePane sidePane, TaskExecutor taskExecutor, StateManager stateManager, PreferencesService preferences, DialogService dialogService) {
-        super(sidePane, IconTheme.JabRefIcons.TOGGLE_GRAPH, "Relation between Authors");
+        super(sidePane, IconTheme.JabRefIcons.TOGGLE_GRAPH, "Relation between authors");
         this.preferences = preferences;
         this.taskExecutor = taskExecutor;
         this.stateManager = stateManager;
