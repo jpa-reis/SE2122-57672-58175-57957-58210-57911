@@ -75,10 +75,10 @@ public class GroupNodeViewModel {
             AutomaticGroup automaticGroup = (AutomaticGroup) groupNode.getGroup();
 
             children = automaticGroup.createSubgroups(this.databaseContext.getDatabase().getEntries())
-                                     .stream()
-                                     .map(this::toViewModel)
-                                     .sorted((group1, group2) -> group1.getDisplayName().compareToIgnoreCase(group2.getDisplayName()))
-                                     .collect(Collectors.toCollection(FXCollections::observableArrayList));
+                    .stream()
+                    .map(this::toViewModel)
+                    .sorted((group1, group2) -> group1.getDisplayName().compareToIgnoreCase(group2.getDisplayName()))
+                    .collect(Collectors.toCollection(FXCollections::observableArrayList));
         } else {
             children = EasyBind.mapBacked(groupNode.getChildren(), this::toViewModel);
         }
@@ -200,7 +200,7 @@ public class GroupNodeViewModel {
     public JabRefIcon getIcon() {
         Optional<String> iconName = groupNode.getGroup().getIconName();
         return iconName.flatMap(this::parseIcon)
-                       .orElseGet(this::createDefaultIcon);
+                .orElseGet(this::createDefaultIcon);
     }
 
     private JabRefIcon createDefaultIcon() {
@@ -369,5 +369,9 @@ public class GroupNodeViewModel {
 
     private int getPositionInParent() {
         return groupNode.getPositionInParent();
+    }
+
+    public ObservableList<BibEntry> getEntries(){
+        return entriesList;
     }
 }

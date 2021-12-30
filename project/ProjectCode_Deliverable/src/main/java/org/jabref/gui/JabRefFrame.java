@@ -354,8 +354,8 @@ public class JabRefFrame extends BorderPane {
                 prefs.clearEditedFiles();
             } else {
                 Path focusedDatabase = getCurrentLibraryTab().getBibDatabaseContext()
-                                                             .getDatabasePath()
-                                                             .orElse(null);
+                        .getDatabasePath()
+                        .orElse(null);
                 prefs.getGuiPreferences().setLastFilesOpened(filenames);
                 prefs.getGuiPreferences().setLastFocusedFile(focusedDatabase);
             }
@@ -566,8 +566,8 @@ public class JabRefFrame extends BorderPane {
      */
     public List<LibraryTab> getLibraryTabs() {
         return tabbedPane.getTabs().stream()
-                         .map(tab -> (LibraryTab) tab)
-                         .collect(Collectors.toList());
+                .map(tab -> (LibraryTab) tab)
+                .collect(Collectors.toList());
     }
 
     public void showLibraryTabAt(int i) {
@@ -599,9 +599,9 @@ public class JabRefFrame extends BorderPane {
         stateManager.activeDatabaseProperty().bind(
                 EasyBind.map(tabbedPane.getSelectionModel().selectedItemProperty(),
                         selectedTab -> Optional.ofNullable(selectedTab)
-                                               .filter(tab -> tab instanceof LibraryTab)
-                                               .map(tab -> (LibraryTab) tab)
-                                               .map(LibraryTab::getBibDatabaseContext)));
+                                .filter(tab -> tab instanceof LibraryTab)
+                                .map(tab -> (LibraryTab) tab)
+                                .map(LibraryTab::getBibDatabaseContext)));
 
         // Subscribe to the search
         EasyBind.subscribe(stateManager.activeSearchQueryProperty(),
@@ -687,6 +687,7 @@ public class JabRefFrame extends BorderPane {
         Menu quality = new Menu(Localization.lang("Quality"));
         Menu lookup = new Menu(Localization.lang("Lookup"));
         Menu view = new Menu(Localization.lang("View"));
+
         Menu tools = new Menu(Localization.lang("Tools"));
         Menu options = new Menu(Localization.lang("Options"));
         Menu help = new Menu(Localization.lang("Help"));
@@ -847,11 +848,14 @@ public class JabRefFrame extends BorderPane {
         SidePaneComponent webSearch = sidePane.getComponent(SidePaneType.WEB_SEARCH);
         SidePaneComponent groups = sidePane.getComponent(SidePaneType.GROUPS);
         SidePaneComponent openOffice = sidePane.getComponent(SidePaneType.OPEN_OFFICE);
+        SidePaneComponent graph = sidePane.getComponent(SidePaneType.GRAPH);
 
         view.getItems().addAll(
                 factory.createCheckMenuItem(webSearch.getToggleAction(), webSearch.getToggleCommand(), sidePane.isComponentVisible(SidePaneType.WEB_SEARCH)),
                 factory.createCheckMenuItem(groups.getToggleAction(), groups.getToggleCommand(), sidePane.isComponentVisible(SidePaneType.GROUPS)),
+                factory.createCheckMenuItem(graph.getToggleAction(), graph.getToggleCommand(), sidePane.isComponentVisible(SidePaneType.GRAPH)),
                 factory.createCheckMenuItem(openOffice.getToggleAction(), openOffice.getToggleCommand(), sidePane.isComponentVisible(SidePaneType.OPEN_OFFICE)),
+
 
                 new SeparatorMenuItem(),
 
@@ -1018,10 +1022,10 @@ public class JabRefFrame extends BorderPane {
         } else {
             // only add tab if DB is not already open
             Optional<LibraryTab> libraryTab = getLibraryTabs().stream()
-                                                              .filter(p -> p.getBibDatabaseContext()
-                                                                            .getDatabasePath()
-                                                                            .equals(parserResult.getPath()))
-                                                              .findFirst();
+                    .filter(p -> p.getBibDatabaseContext()
+                            .getDatabasePath()
+                            .equals(parserResult.getPath()))
+                    .findFirst();
 
             if (libraryTab.isPresent()) {
                 tabbedPane.getSelectionModel().select(libraryTab.get());
@@ -1138,10 +1142,10 @@ public class JabRefFrame extends BorderPane {
      */
     private boolean confirmClose(LibraryTab libraryTab) {
         String filename = libraryTab.getBibDatabaseContext()
-                                    .getDatabasePath()
-                                    .map(Path::toAbsolutePath)
-                                    .map(Path::toString)
-                                    .orElse(Localization.lang("untitled"));
+                .getDatabasePath()
+                .map(Path::toAbsolutePath)
+                .map(Path::toString)
+                .orElse(Localization.lang("untitled"));
 
         ButtonType saveChanges = new ButtonType(Localization.lang("Save changes"), ButtonBar.ButtonData.YES);
         ButtonType discardChanges = new ButtonType(Localization.lang("Discard changes"), ButtonBar.ButtonData.NO);
@@ -1176,10 +1180,10 @@ public class JabRefFrame extends BorderPane {
      */
     private Boolean confirmEmptyEntry(LibraryTab libraryTab, BibDatabaseContext context) {
         String filename = libraryTab.getBibDatabaseContext()
-                                    .getDatabasePath()
-                                    .map(Path::toAbsolutePath)
-                                    .map(Path::toString)
-                                    .orElse(Localization.lang("untitled"));
+                .getDatabasePath()
+                .map(Path::toAbsolutePath)
+                .map(Path::toString)
+                .orElse(Localization.lang("untitled"));
 
         ButtonType deleteEmptyEntries = new ButtonType(Localization.lang("Delete empty entries"), ButtonBar.ButtonData.YES);
         ButtonType keepEmptyEntries = new ButtonType(Localization.lang("Keep empty entries"), ButtonBar.ButtonData.NO);
