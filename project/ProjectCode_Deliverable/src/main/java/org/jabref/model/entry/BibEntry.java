@@ -105,6 +105,7 @@ public class BibEntry implements Cloneable {
         this(DEFAULT_TYPE);
     }
 
+
     /**
      * Constructs a new BibEntry. The internal ID is set to IdGenerator.next()
      */
@@ -139,11 +140,11 @@ public class BibEntry implements Cloneable {
     private Optional<Field> getSourceField(Field targetField, EntryType targetEntry, EntryType sourceEntry) {
         //// 1. Sort out forbidden fields
         if ((targetField == StandardField.IDS) ||
-            (targetField == StandardField.CROSSREF) ||
-            (targetField == StandardField.XREF) ||
-            (targetField == StandardField.ENTRYSET) ||
-            (targetField == StandardField.RELATED) ||
-            (targetField == StandardField.SORTKEY)) {
+                (targetField == StandardField.CROSSREF) ||
+                (targetField == StandardField.XREF) ||
+                (targetField == StandardField.ENTRYSET) ||
+                (targetField == StandardField.RELATED) ||
+                (targetField == StandardField.SORTKEY)) {
             return Optional.empty();
         }
 
@@ -185,8 +186,8 @@ public class BibEntry implements Cloneable {
 
             // those fields are no more available for the same-name inheritance strategy
             if ((targetField == StandardField.TITLE) ||
-                (targetField == StandardField.SUBTITLE) ||
-                (targetField == StandardField.TITLEADDON)) {
+                    (targetField == StandardField.SUBTITLE) ||
+                    (targetField == StandardField.TITLEADDON)) {
                 return Optional.empty();
             }
 
@@ -197,12 +198,12 @@ public class BibEntry implements Cloneable {
         }
 
         if (((sourceEntry == StandardEntryType.Book) && (targetEntry == StandardEntryType.InBook)) ||
-            ((sourceEntry == StandardEntryType.Book) && (targetEntry == StandardEntryType.BookInBook)) ||
-            ((sourceEntry == StandardEntryType.Book) && (targetEntry == StandardEntryType.SuppBook)) ||
-            ((sourceEntry == StandardEntryType.Collection) && (targetEntry == StandardEntryType.InCollection)) ||
-            ((sourceEntry == StandardEntryType.Collection) && (targetEntry == StandardEntryType.SuppCollection)) ||
-            ((sourceEntry == StandardEntryType.Reference) && (targetEntry == StandardEntryType.InReference)) ||
-            ((sourceEntry == StandardEntryType.Proceedings) && (targetEntry == StandardEntryType.InProceedings))) {
+                ((sourceEntry == StandardEntryType.Book) && (targetEntry == StandardEntryType.BookInBook)) ||
+                ((sourceEntry == StandardEntryType.Book) && (targetEntry == StandardEntryType.SuppBook)) ||
+                ((sourceEntry == StandardEntryType.Collection) && (targetEntry == StandardEntryType.InCollection)) ||
+                ((sourceEntry == StandardEntryType.Collection) && (targetEntry == StandardEntryType.SuppCollection)) ||
+                ((sourceEntry == StandardEntryType.Reference) && (targetEntry == StandardEntryType.InReference)) ||
+                ((sourceEntry == StandardEntryType.Proceedings) && (targetEntry == StandardEntryType.InProceedings))) {
             if (targetField == StandardField.BOOKTITLE) {
                 return Optional.of(StandardField.TITLE);
             }
@@ -215,8 +216,8 @@ public class BibEntry implements Cloneable {
 
             // those fields are no more available for the same-name inheritance strategy
             if ((targetField == StandardField.TITLE) ||
-                (targetField == StandardField.SUBTITLE) ||
-                (targetField == StandardField.TITLEADDON)) {
+                    (targetField == StandardField.SUBTITLE) ||
+                    (targetField == StandardField.TITLEADDON)) {
                 return Optional.empty();
             }
 
@@ -227,7 +228,7 @@ public class BibEntry implements Cloneable {
         }
 
         if (((sourceEntry == IEEETranEntryType.Periodical) && (targetEntry == StandardEntryType.Article)) ||
-            ((sourceEntry == IEEETranEntryType.Periodical) && (targetEntry == StandardEntryType.SuppPeriodical))) {
+                ((sourceEntry == IEEETranEntryType.Periodical) && (targetEntry == StandardEntryType.SuppPeriodical))) {
             if (targetField == StandardField.JOURNALTITLE) {
                 return Optional.of(StandardField.TITLE);
             }
@@ -237,7 +238,7 @@ public class BibEntry implements Cloneable {
 
             // those fields are no more available for the same-name inheritance strategy
             if ((targetField == StandardField.TITLE) ||
-                (targetField == StandardField.SUBTITLE)) {
+                    (targetField == StandardField.SUBTITLE)) {
                 return Optional.empty();
             }
 

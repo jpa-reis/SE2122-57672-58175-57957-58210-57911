@@ -12,6 +12,7 @@ import org.jabref.model.entry.field.BibField;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.FieldPriority;
 import org.jabref.model.entry.field.OrFields;
+import org.jabref.model.entry.field.StandardField;
 import org.jabref.model.entry.types.EntryType;
 import org.jabref.model.entry.types.StandardEntryType;
 
@@ -78,6 +79,7 @@ public class BibEntryTypeBuilder {
                                                              .flatMap(Set::stream)
                                                              .map(field -> new BibField(field, FieldPriority.IMPORTANT));
         Set<BibField> allFields = Stream.concat(fields.stream(), requiredAsImportant).collect(Collectors.toCollection(LinkedHashSet::new));
+        BibEntryType test = new BibEntryType(type, allFields, requiredFields);
         return new BibEntryType(type, allFields, requiredFields);
     }
 }

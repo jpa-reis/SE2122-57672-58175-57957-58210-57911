@@ -45,6 +45,7 @@ public enum StandardEntryType implements EntryType {
 
     StandardEntryType(String displayName) {
         this.displayName = displayName;
+
     }
 
     @Override

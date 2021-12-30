@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.jabref.gui.entryeditor.additionalfields.AdditionalOptionalFields;
+import org.jabref.gui.entryeditor.additionalfields.AdditionalRequiredFields;
 import org.jabref.model.entry.field.BibField;
 import org.jabref.model.entry.field.Field;
 import org.jabref.model.entry.field.FieldPriority;
@@ -24,6 +26,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
         this.type = Objects.requireNonNull(type);
         this.requiredFields = new LinkedHashSet<>(requiredFields);
         this.fields = new LinkedHashSet<>(fields);
+
+
     }
 
     public EntryType getType() {
@@ -37,8 +41,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
      */
     public Set<BibField> getOptionalFields() {
         return getAllBibFields().stream()
-                             .filter(field -> !isRequired(field.getField()))
-                             .collect(Collectors.toCollection(LinkedHashSet::new));
+                                .filter(field -> !isRequired(field.getField()))
+                                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public boolean isRequired(Field field) {
@@ -69,10 +73,27 @@ public class BibEntryType implements Comparable<BibEntryType> {
     }
 
     public Set<Field> getPrimaryOptionalFields() {
-        return getOptionalFields().stream()
-                                  .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
-                                  .map(BibField::getField)
-                                  .collect(Collectors.toCollection(LinkedHashSet::new));
+        Set<Field> primaryOptionalFields = getOptionalFields().stream()
+                .filter(field -> field.getPriority() == FieldPriority.IMPORTANT)
+                .map(BibField::getField)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+
+        AdditionalOptionalFields optionalFields = new AdditionalOptionalFields();
+
+        if (optionalFields.getOptionalFields(type) != null) {
+            for (int i = 0; i < optionalFields.getOptionalFields(type).length; i++) {
+                primaryOptionalFields.add(optionalFields.getOptionalFields(type)[i]);
+            }
+        }
+
+        if (optionalFields.getCommonFields() != null) {
+            for (int i = 0; i < optionalFields.getCommonFields().length; i++) {
+                primaryOptionalFields.add(optionalFields.getCommonFields()[i]);
+            }
+    }
+
+
+        return primaryOptionalFields;
     }
 
     public Set<Field> getSecondaryOptionalFields() {
@@ -122,8 +143,8 @@ public class BibEntryType implements Comparable<BibEntryType> {
         }
         BibEntryType that = (BibEntryType) o;
         return type.equals(that.type) &&
-               Objects.equals(requiredFields, that.requiredFields) &&
-               Objects.equals(fields, that.fields);
+                Objects.equals(requiredFields, that.requiredFields) &&
+                Objects.equals(fields, that.fields);
 
     }
 
@@ -135,14 +156,22 @@ public class BibEntryType implements Comparable<BibEntryType> {
     @Override
     public String toString() {
         return "BibEntryType{" +
-               "type=" + type +
-               ", requiredFields=" + requiredFields +
-               ", fields=" + fields +
-               '}';
+                "type=" + type +
+                ", requiredFields=" + requiredFields +
+                ", fields=" + fields +
+                '}';
     }
 
     @Override
     public int compareTo(BibEntryType o) {
         return this.getType().getName().compareTo(o.getType().getName());
+    }
+
+    public void addRequiredFields(Field[] fields){
+        if(fields != null){
+            for(int i = 0; i < fields.length; i++){
+                requiredFields.add(new OrFields(fields[i]));
+            }
+        }
     }
 }

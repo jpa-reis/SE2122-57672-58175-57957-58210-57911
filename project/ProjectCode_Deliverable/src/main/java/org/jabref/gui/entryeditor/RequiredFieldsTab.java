@@ -11,6 +11,7 @@ import javafx.scene.control.Tooltip;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.autocompleter.SuggestionProviders;
+import org.jabref.gui.entryeditor.additionalfields.AdditionalRequiredFields;
 import org.jabref.gui.externalfiletype.ExternalFileTypes;
 import org.jabref.gui.icon.IconTheme;
 import org.jabref.gui.util.TaskExecutor;
@@ -52,16 +53,23 @@ public class RequiredFieldsTab extends FieldsEditorTab {
     protected Set<Field> determineFieldsToShow(BibEntry entry) {
         Optional<BibEntryType> entryType = entryTypesManager.enrich(entry.getType(), databaseContext.getMode());
         Set<Field> fields = new LinkedHashSet<>();
+
+        entryType.get().addRequiredFields(new AdditionalRequiredFields().getRequiredFields(entry.getType()));
+        entryType.get().addRequiredFields(new AdditionalRequiredFields().getCommonFields());
+
         if (entryType.isPresent()) {
             for (OrFields orFields : entryType.get().getRequiredFields()) {
                 fields.addAll(orFields);
             }
+
             // Add the edit field for Bibtex-key.
             fields.add(InternalField.KEY_FIELD);
         } else {
             // Entry type unknown -> treat all fields as required
             fields.addAll(entry.getFields());
         }
+
+
         return fields;
     }
 }
