@@ -54,10 +54,10 @@ public class BibEntryTypeBuilder {
     }
 
     public BibEntryTypeBuilder withRequiredFields(Set<OrFields> requiredFields) {
-        Set<OrFields> test = requiredFields;
+        /*Set<OrFields> test = requiredFields;
         OrFields aaa = new OrFields();
         aaa.add(StandardField.FUNDED_BY);
-        test.add(aaa);
+        test.add(aaa);*/
         this.requiredFields = requiredFields;
         return this;
     }
