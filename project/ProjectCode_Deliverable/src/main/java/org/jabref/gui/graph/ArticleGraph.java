@@ -40,9 +40,8 @@ public class ArticleGraph extends BorderPane {
     private final GroupTreeViewModel viewModel;
     private ObservableList<BibEntry> entries;
     private ImageView graphImage;
-    private Button refresh;
-
-
+    private Button refresh;    
+    
     /**
      * The groups panel
      *
@@ -60,14 +59,28 @@ public class ArticleGraph extends BorderPane {
 
         this.getStylesheets().add(Objects.requireNonNull(GroupTreeView.class.getResource("GroupTree.css")).toExternalForm());
         makeTree();
-
+    }
+    
+    private List<List<String>> getGraphInfo(){
+        List<List<String>> authorsList = new ArrayList<>();
+        
         if(groupTree.getRoot()!=null){
-        entries = groupTree.getRoot().getValue().getEntries();
+            entries = groupTree.getRoot().getValue().getEntries();
             for (BibEntry entry : entries) {
-                if (entry.getTitle().isPresent())
-                    System.out.println(entry.getTitle().get());
+                if (entry.getTitle().isPresent()) {
+                    String[] authors = null;
+                    String s = String.valueOf(entry.getField(StandardField.AUTHOR));
+                    s = s.split("\\[|\\]")[1];
+                    authors = s.split("and");
+
+                    for(int y = 0; y < authors.length; y++)
+                        authors[y] = authors[y].trim();
+
+                    authorsList.add(Arrays.asList(authors));
+                }
             }
         }
+        return authorsList;
     }
 
 
