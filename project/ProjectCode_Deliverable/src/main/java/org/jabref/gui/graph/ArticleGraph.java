@@ -11,6 +11,9 @@ import com.mxgraph.layout.mxGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.view.mxGraph;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeTableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +24,7 @@ import org.jabref.gui.StateManager;
 import org.jabref.gui.groups.GroupNodeViewModel;
 import org.jabref.gui.groups.GroupTreeView;
 import org.jabref.gui.groups.GroupTreeViewModel;
+import org.jabref.gui.icon.IconTheme;
 import org.jabref.gui.util.RecursiveTreeItem;
 import org.jabref.gui.util.TaskExecutor;
 import org.jabref.model.entry.BibEntry;
@@ -36,6 +40,7 @@ public class ArticleGraph extends BorderPane {
     private final GroupTreeViewModel viewModel;
     private ObservableList<BibEntry> entries;
     private ImageView graphImage;
+    private Button refresh;
 
 
     /**
@@ -68,10 +73,18 @@ public class ArticleGraph extends BorderPane {
 
     private void createNodes() {
 
-        graphImage = new ImageView("File:src\\main\\resources\\images\\external\\graph.png");
+        graphImage = new ImageView();
         HBox articleGraph = new HBox(graphImage);
         articleGraph.setId("articleGraph");
         this.setCenter(articleGraph);
+
+
+        refresh = IconTheme.JabRefIcons.REFRESH.asButton();
+        refresh.setTooltip(new Tooltip("New group"));
+        refresh.setOnAction(event -> updateImage());
+        HBox refreshButton = new HBox(refresh);
+        refreshButton.setId("refresh");
+        this.setTop(refreshButton);
 
     }
 
@@ -93,9 +106,11 @@ public class ArticleGraph extends BorderPane {
     }
 
     protected void updateImage(){
-        buildGraph();
+        BufferedImage newGraphImage = buildGraph();
 
-        graphImage = new ImageView("File:src\\main\\resources\\images\\external\\graph.png");
+
+        System.out.println("GraphUpdated");
+        graphImage = new ImageView(SwingFXUtils.toFXImage(newGraphImage, null));
 
         HBox articleGraph = new HBox(graphImage);
         articleGraph.setId("articleGraph");
@@ -103,7 +118,7 @@ public class ArticleGraph extends BorderPane {
 
     }
 
-    private void buildGraph() {
+    private BufferedImage buildGraph() {
 
         mxGraph graph = new mxGraph();
         Object parent = graph.getDefaultParent();
@@ -136,12 +151,13 @@ public class ArticleGraph extends BorderPane {
 
         BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, Color.WHITE, false, null);
 
-        try {
-            ImageIO.write(image, "PNG", new File("File:src\\main\\resources\\images\\external\\graph.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ImageIO.write(image, "PNG", new File("C:\\Users\\Lucas\\Desktop\\SE2122-57672-58175-57957-58210-57911\\project\\ProjectCode_Deliverablesrc\\main\\resources\\images\\external\\graph.png"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
+        return image;
 
     }
 }
