@@ -55,7 +55,10 @@ public class RequiredFieldsTab extends FieldsEditorTab {
     protected Set<Field> determineFieldsToShow(BibEntry entry) {
         Optional<BibEntryType> entryType = entryTypesManager.enrich(entry.getType(), databaseContext.getMode());
         Set<Field> fields = new LinkedHashSet<>();
-        entryType.get().addRequiredField(StandardField.TEXT_LANGUAGES);
+        if(entry.getType().getDisplayName().equals("Article")){
+            entryType.get().addRequiredField(StandardField.TEXT_LANGUAGES);
+        }
+
         if (entryType.isPresent()) {
             for (OrFields orFields : entryType.get().getRequiredFields()) {
                 fields.addAll(orFields);

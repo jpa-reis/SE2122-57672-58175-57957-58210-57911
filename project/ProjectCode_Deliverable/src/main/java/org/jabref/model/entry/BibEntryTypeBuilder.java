@@ -54,10 +54,6 @@ public class BibEntryTypeBuilder {
     }
 
     public BibEntryTypeBuilder withRequiredFields(Set<OrFields> requiredFields) {
-        /*Set<OrFields> test = requiredFields;
-        OrFields aaa = new OrFields();
-        aaa.add(StandardField.FUNDED_BY);
-        test.add(aaa);*/
         this.requiredFields = requiredFields;
         return this;
     }
@@ -83,6 +79,7 @@ public class BibEntryTypeBuilder {
                                                              .flatMap(Set::stream)
                                                              .map(field -> new BibField(field, FieldPriority.IMPORTANT));
         Set<BibField> allFields = Stream.concat(fields.stream(), requiredAsImportant).collect(Collectors.toCollection(LinkedHashSet::new));
+        BibEntryType test = new BibEntryType(type, allFields, requiredFields);
         return new BibEntryType(type, allFields, requiredFields);
     }
 }
