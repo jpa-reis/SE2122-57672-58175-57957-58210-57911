@@ -1,11 +1,21 @@
 package org.jabref.gui.graph;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
+import com.mxgraph.layout.mxGraphLayout;
+import com.mxgraph.util.mxCellRenderer;
+import com.mxgraph.view.mxGraph;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeTableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
+import javafx.scene.layout.HBox;
 import org.jabref.gui.DialogService;
 import org.jabref.gui.StateManager;
 import org.jabref.gui.groups.GroupNodeViewModel;
@@ -18,11 +28,15 @@ import org.jabref.preferences.PreferencesService;
 
 import com.tobiasdiez.easybind.EasyBind;
 
+import javax.imageio.ImageIO;
+
 public class ArticleGraph extends BorderPane {
 
     private final TreeTableView<GroupNodeViewModel> groupTree;
     private final GroupTreeViewModel viewModel;
     private ObservableList<BibEntry> entries;
+    private ImageView graphImage;
+
 
     /**
      * The groups panel
@@ -34,6 +48,10 @@ public class ArticleGraph extends BorderPane {
         viewModel = new GroupTreeViewModel(stateManager, dialogService, preferencesService, taskExecutor, stateManager.getLocalDragboard());
         groupTree = new TreeTableView<>();
         groupTree.setId("groupTree");
+
+
+
+        createNodes();
 
         this.getStylesheets().add(Objects.requireNonNull(GroupTreeView.class.getResource("GroupTree.css")).toExternalForm());
         makeTree();
@@ -47,6 +65,15 @@ public class ArticleGraph extends BorderPane {
         }
     }
 
+
+    private void createNodes() {
+
+        graphImage = new ImageView("File:src\\main\\resources\\images\\external\\graph.png");
+        HBox articleGraph = new HBox(graphImage);
+        articleGraph.setId("articleGraph");
+        this.setCenter(articleGraph);
+
+    }
 
     //Creates the groupTree just like class GroupTreeView (the class responsible for the "Groups interface" in the "View" tab)
     private void makeTree() {
@@ -63,5 +90,58 @@ public class ArticleGraph extends BorderPane {
                                         viewModel.filterPredicateProperty());
                             }
                         }));
+    }
+
+    protected void updateImage(){
+        buildGraph();
+
+        graphImage = new ImageView("File:src\\main\\resources\\images\\external\\graph.png");
+
+        HBox articleGraph = new HBox(graphImage);
+        articleGraph.setId("articleGraph");
+        this.setCenter(articleGraph);
+
+    }
+
+    private void buildGraph() {
+
+        mxGraph graph = new mxGraph();
+        Object parent = graph.getDefaultParent();
+
+        graph.getModel().beginUpdate();
+        try
+        {
+            Object v1 = graph.insertVertex(parent, null, "Hello", 0, 0, 80,30);
+            Object v2 = graph.insertVertex(parent, null, "World!", 0, 0,80, 30);
+            Object v3 = graph.insertVertex(parent, null, "3!", 0, 0,80, 30);
+            Object v4 = graph.insertVertex(parent, null, "4!", 0, 0,80, 30);
+            Object v5 = graph.insertVertex(parent, null, "5!", 0, 0,80, 30);
+            Object v6 = graph.insertVertex(parent, null, "6!", 0, 0,80, 30);
+            Object v7 = graph.insertVertex(parent, null, "7!", 0, 0,80, 30);
+            Object v8 = graph.insertVertex(parent, null, "8!", 0, 0,80, 30);
+            graph.insertEdge(parent, null, "", v1, v2);
+            graph.insertEdge(parent, null, "", v1, v3);
+            graph.insertEdge(parent, null, "", v5, v4);
+            graph.insertEdge(parent, null, "", v4, v2);
+            graph.insertEdge(parent, null, "", v3, v2);
+            graph.insertEdge(parent, null, "", v8, v2);
+        }
+        finally
+        {
+            graph.getModel().endUpdate();
+        }
+
+        mxGraphLayout layout = new mxHierarchicalLayout(graph);
+        layout.execute(parent);
+
+        BufferedImage image = mxCellRenderer.createBufferedImage(graph, null, 1, Color.WHITE, false, null);
+
+        try {
+            ImageIO.write(image, "PNG", new File("File:src\\main\\resources\\images\\external\\graph.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

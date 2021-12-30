@@ -24,6 +24,7 @@ public class GraphSidePane extends SidePaneComponent {
     private final TaskExecutor taskExecutor;
     private final StateManager stateManager;
     private final Button refresh = IconTheme.JabRefIcons.REFRESH.asButton();
+    private ArticleGraph articleGraph;
 
     public GraphSidePane(SidePane sidePane, TaskExecutor taskExecutor, StateManager stateManager, PreferencesService preferences, DialogService dialogService) {
         super(sidePane, IconTheme.JabRefIcons.TOGGLE_GRAPH, "Relation between articles");
@@ -35,7 +36,7 @@ public class GraphSidePane extends SidePaneComponent {
 
     @Override
     protected List<Node> getAdditionalHeaderButtons() {
-        refresh.setOnAction(event -> createContentPane());
+        refresh.setOnAction(event -> rebuildGraph());
         return Collections.singletonList(refresh);
     }
 
@@ -51,11 +52,15 @@ public class GraphSidePane extends SidePaneComponent {
 
     @Override
     protected Node createContentPane() {
-        return new ArticleGraph(taskExecutor, stateManager, preferences, dialogService);
+        return articleGraph = new ArticleGraph(taskExecutor, stateManager, preferences, dialogService);
     }
 
     @Override
     public SidePaneType getType() {
         return SidePaneType.GRAPH;
+    }
+
+    private void rebuildGraph(){
+        articleGraph.updateImage();
     }
 }
