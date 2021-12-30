@@ -133,8 +133,11 @@ public class AuthorsGraph extends BorderPane {
         ScrollPane  sp = new ScrollPane();
         sp.setContent(root);
         Scene scene = new Scene(sp);
-
         Stage stage = new Stage();
+        
+        stage.setWidth(Math.min(stage.getWidth(), Screen.getPrimary().getBounds().getWidth()));
+        stage.setHeight(Math.min(stage.getHeight(), Screen.getPrimary().getBounds().getHeight()));
+        
         stage.setTitle("Displaying Image");
         stage.setScene(scene);
         stage.show();
